@@ -1,0 +1,72 @@
+drop database alimento; 
+
+create database alimento;
+
+use alimento;
+
+create table alimento (
+    pk int not null auto_increment, primary key(pk),
+    nome varchar(255) not null,
+	marca varchar(255) not null
+);
+
+create table pedido (
+	pk int not null auto_increment, primary key(pk),
+    razao_social varchar(255) not null,
+    data_pedido date not null
+);
+
+create table lote (
+	pk int not null auto_increment, primary key(pk),
+    codigo varchar(255) not null,
+    vencimento date not null,
+    quantidade int not null
+);
+
+create table detalhe_pedido (
+	pk int not null auto_increment, primary key(pk),
+    quantidade int not null,
+    valor decimal not null,
+	pedido_fk int, foreign key (pedido_fk) references pedido(pk)
+);
+
+create table detalhe_pedido_entrega  (
+	detalhe_pedido_pk int not null auto_increment, primary key(detalhe_pedido_pk),
+	alimento_fk int, foreign key (alimento_fk) references alimento(pk),
+    lote_fk int, foreign key (lote_fk) references lote(pk),
+    data_pedido date not null,
+	quantidade int not null,
+	valor decimal not null
+);
+
+insert into alimento  (nome, marca) values
+("arroz", "tio joao");
+ 
+insert into alimento  (nome, marca) values
+("feijao", "camil");
+
+insert into pedido (razao_social, data_pedido) values
+("Escola Municipal", "2024-10-17");
+
+insert into pedido (razao_social, data_pedido) values
+("Colegio Particular", "2024-10-17");
+
+insert into lote (codigo, vencimento, quantidade) values
+("L001", "2024-11-16", 100);
+
+insert into lote (codigo, vencimento, quantidade) values
+("L002", "2024-12-16", 200);
+
+insert into detalhe_pedido (quantidade, valor, pedido_fk) values
+(50, 200.00, 1);
+
+insert into detalhe_pedido (quantidade, valor, pedido_fk) values
+(30, 150.00, 2);
+
+
+
+
+
+
+
+
