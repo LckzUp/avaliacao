@@ -1,0 +1,66 @@
+drop database alimento;
+
+create database alimento;
+
+use alimento;
+
+create table alimento(
+	pk int primary key not null auto_increment,
+    nome varchar(255) not null,
+    marca varchar(255) not null
+);
+
+create table pedido(
+	pk int primary key not null auto_increment,
+    razao_social varchar(255) not null,
+    data_pedido date not null
+);
+
+create table lote(
+	pk int primary key not null auto_increment,
+    codigo varchar(255) not null,
+    vencimento date not null,
+    quantidade_lote int
+);
+
+create table detalhe_pedido(
+	pk int primary key not null auto_increment,
+	valor decimal(3),
+    quantidade_detalhe int,
+    pedido_fk int not null, foreign key (pedido_fk) references pedido(pk)
+);
+
+create table detalhe_pedido_entrega(
+	detalhe_pedido_pk int primary key not null,
+	alimento_fk int not null, foreign key (alimento_fk) references alimento(pk),
+    lote_fk int not null, foreign key (lote_fk) references lote(pk),
+    data_entrega date not null,
+    quantidade_entrega int,
+    valor decimal(3)
+);
+
+insert into alimento (nome, marca) values ("Arroz", "Tio João");
+insert into alimento (nome, marca) values ("Feijão", "Camil");
+
+select * from alimento;
+
+insert into pedido (razao_social, data_pedido) values ("Escola Municipal", "2024-11-17");
+insert into pedido (razao_social, data_pedido) values ("Colégio Particular", "2024-12-17");
+
+select * from pedido;
+
+insert into lote (codigo, vencimento, quantidade_lote) values ("L001", "2024-10-18", 100);
+insert into lote (codigo, vencimento, quantidade_lote) values ("L002", "2024-10-18", 200);
+
+select * from lote;
+
+insert into detalhe_pedido (quantidade_detalhe, valor, pedido_fk) values (50, "200,00", 1);
+insert into detalhe_pedido (quantidade_detalhe, valor, pedido_fk) values (30, "150,00", 2);
+
+select * from detalhe_pedido;
+
+insert into detalhe_pedido_entrega (detalhe_pedido_pk, alimento_fk, lote_fk, data_entrega, quantidade_entrega, valor) values (1, 1, 1, "2024-10-18", 50, "200,00");
+insert into detalhe_pedido_entrega (detalhe_pedido_pk, alimento_fk, lote_fk, data_entrega, quantidade_entrega, valor) values (2, 2, 2, "2024-10-18", 30, "150,00");
+
+select * from detalhe_pedido_entrega;
+
